@@ -1,6 +1,8 @@
 "use client";
 import { usePrivy } from "@privy-io/react-auth";
 import { useEffect, useState } from "react";
+import CreateNatilleraForm from "@/components/createNatilleraForm";
+import NatilleraList from "@/components/natilleraList"; // Importado correctamente
 
 export default function Home() {
   const { authenticated, login } = usePrivy();
@@ -10,7 +12,7 @@ export default function Home() {
   if (!mounted) return null;
 
   return (
-    <main className="flex flex-col items-center p-6 min-h-screen bg-gray-50">
+    <main className="flex flex-col items-center p-6 min-h-screen bg-gray-50 text-black">
       {authenticated ? <DashboardView /> : <LoginView onLogin={login} />}
     </main>
   );
@@ -37,17 +39,21 @@ function LoginView({ onLogin }: { onLogin: () => void }) {
 
 function DashboardView() {
   return (
-    <div className="w-full max-w-md space-y-4">
+    <div className="w-full max-w-md space-y-6 pb-20">
       <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-200">
         <p className="text-gray-500 text-sm">Estado de mi ahorro</p>
-        <h3 className="text-3xl font-black text-blue-900">40.00 cUSD</h3>
+        <h3 className="text-3xl font-black text-blue-900">0.00 cUSD</h3>
       </div>
 
-      <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-200">
-        <h4 className="font-bold mb-4">Próxima Acción</h4>
-        <button className="w-full bg-green-500 text-white py-4 rounded-xl font-bold">
-          Pagar Semena 5 (10 cUSD)
-        </button>
+      {/* 1. Formulario para crear */}
+      <CreateNatilleraForm />
+
+      {/* 2. LISTA DE NATILLERAS (Aquí es donde se usa para que el error desaparezca) */}
+      <div className="mt-8">
+        <h3 className="text-lg font-bold text-blue-900 mb-3 text-center">
+          Tus Grupos Activos
+        </h3>
+        <NatilleraList />
       </div>
     </div>
   );

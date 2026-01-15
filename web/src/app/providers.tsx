@@ -1,23 +1,35 @@
 "use client";
 
-import { PrivyProvider } from "@privy-io/react-auth";
-import { WagmiProvider, createConfig, http } from "wagmi";
-import { celoSepolia } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { PrivyProvider } from "@privy-io/react-auth";
+// IMPORTANTE: Estos dos vienen de @privy-io/wagmi
+import { WagmiProvider, createConfig } from "@privy-io/wagmi";
+import { http } from "wagmi";
+
+const celoSepolia = {
+  id: 11142220,
+  name: "Celo Sepolia",
+  nativeCurrency: { name: "CELO", symbol: "CELO", decimals: 18 },
+  rpcUrls: {
+    default: { http: ["https://forno.celo-sepolia.celo-testnet.org"] },
+  },
+} as const;
+
+export const wagmiConfig = createConfig({
+  chains: [celoSepolia],
+  transports: {
+    [celoSepolia.id]: http(),
+  },
+});
 
 const queryClient = new QueryClient();
-
-const config = createConfig({
-  chains: [celoSepolia],
-  transports: { [celoSepolia.id]: http() },
-});
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <PrivyProvider
       appId={
         process.env.NEXT_PUBLIC_PRIVY_APP_ID || "cl00000000000000000000000"
-      } // ID temporal para que no explote
+      }
       config={{
         appearance: { theme: "light" },
         embeddedWallets: {
@@ -25,11 +37,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
         },
       }}
     >
-      <WagmiProvider config={config}>
-        <QueryClientProvider client={queryClient}>
-          {children}
-        </QueryClientProvider>
-      </WagmiProvider>
+      <QueryClientProvider client={queryClient}>
+        <WagmiProvider config={wagmiConfig}>{children}</WagmiProvider>
+      </QueryClientProvider>
     </PrivyProvider>
   );
 }

@@ -1,0 +1,34 @@
+[
+    {
+        "type": "function",
+        "name": "crearNatillera",
+        "inputs": [
+            {
+                "name": "_nombre",
+                "type": "string"
+            },
+            {
+                "name": "_moneda",
+                "type": "address"
+            },
+            {
+                "name": "_cuota",
+                "type": "uint256"
+            },
+            {
+                "name": "_frecuencia",
+                "type": "uint256"
+            },
+            {
+                "name": "_numCuotas",
+                "type": "uint256"
+            },
+            {
+                "name": "_self",
+                "type": "address"
+            }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+    }
+]
